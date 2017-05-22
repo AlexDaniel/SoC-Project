@@ -1,0 +1,98 @@
+#!/usr/bin/env sh
+
+c=261
+d=294
+e=329
+f=349
+g=391
+gS=415
+a=440
+aS=455
+b=466
+cH=523
+cSH=554
+dH=587
+dSH=622
+eH=659
+fH=698
+fSH=740
+gH=784
+gSH=830
+aH=880
+
+
+beep() {
+    note=$1
+    duration=$2
+
+    #echo "note: $note, duration: $duration"
+    ./generator_cli "$note" 1 5000 "$duration"
+    usleep $((duration * 1000))
+
+    #echo "note: 0"
+    ./generator_cli 100 0 1 1
+    usleep $((50 * 1000))
+}
+
+firstSection() {
+    beep "$a"  500
+    beep "$a"  500; beep "$a" 500
+    beep "$f"  350
+    beep "$cH" 150; beep "$a" 500
+    beep "$f"  350
+    beep "$cH" 150
+    beep "$a"  650
+
+    usleep $((1000 * 500))
+
+    beep "$eH" 500
+    beep "$eH" 500
+    beep "$eH" 500; beep "$fH" 350
+    beep "$cH" 150
+    beep "$gS" 500
+    beep "$f"  350
+    beep "$cH" 150
+    beep "$a"  650
+
+    usleep $((1000 * 500))
+}
+
+secondSection() {
+    beep "$aH"  500
+    beep "$a"   300
+    beep "$a"   150
+    beep "$aH"  500
+    beep "$gSH" 325
+    beep "$gH"  175
+    beep "$fSH" 125
+    beep "$fH"  125; beep "$fSH" 250
+
+    usleep $((1000 * 325))
+
+    beep "$aS"  250
+    beep "$dSH" 500
+    beep "$dH"  325; beep "$cSH" 175; beep "$cH" 125; beep "$b" 125; beep "$cH" 250
+    usleep $((1000 * 350))
+}
+
+# Play first section
+firstSection
+
+# Play second section
+secondSection
+
+# Variant 1
+beep "$f" 250; beep "$gS" 500; beep "$f" 350; beep "$a" 125
+beep "$cH" 500
+beep "$a" 375; beep "$cH" 125
+beep "$eH" 650
+
+sleep 0.500
+
+# Repeat second section
+secondSection
+
+# Variant 2
+beep "$f" 250; beep "$gS" 500; beep "$f" 375; beep "$cH" 125
+beep "$a" 500; beep "$f" 375; beep "$cH" 125
+beep "$a" 650; usleep $((1000 * 650))
